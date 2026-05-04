@@ -85,54 +85,11 @@ sheet1_float = sheet1_df.astype(float)
 sheet1_float[sheet1_float <= 0] = np.nan
 sheet2_log_df = np.log10(sheet1_float)
 
-
-print("\nCalculating linear fit...")
-#The range of values ​​for q needs to be changed.
-start_row = XXX
-end_row = XXX
-
-x_all = sheet2_log_df.iloc[start_row:end_row, 0]
-
-slopes = []
-r_values = []
-r2_values = []
-fit_indices = []
-
-for col_idx in range(1, sheet2_log_df.shape[1]):
-    y_all = sheet2_log_df.iloc[start_row:end_row, col_idx]
-    mask = ~(np.isnan(x_all) | np.isnan(y_all))
-    x_data = x_all[mask]
-    y_data = y_all[mask]
-
-    if len(x_data) < 2:
-        slopes.append(np.nan)
-        r_values.append(np.nan)
-        r2_values.append(np.nan)
-        fit_indices.append(len(slopes))
-        continue
-
-    reg = stats.linregress(x_data, y_data)
-    slopes.append(reg.slope)
-    r_values.append(reg.rvalue)
-    r2_values.append(reg.rvalue ** 2)
-    fit_indices.append(len(slopes))
-
-# Sheet3
-sheet3_df = pd.DataFrame({
-    "ID": fit_indices,
-    "Slope": slopes,
-    "Correlation Coefficient r": r_values,
-    "Determination Coefficient R²": r2_values
-})
-
-
 with pd.ExcelWriter(output_excel, engine='openpyxl') as writer:
     sheet1_df.to_excel(writer, sheet_name="Sheet1", index=False)
     sheet2_log_df.to_excel(writer, sheet_name="Sheet2", index=False)
-    sheet3_df.to_excel(writer, sheet_name="Sheet3", index=False)
 
 print("\n✅ All processes completed!")
 print(f"📊 Sheet1: Original data after removing the 0.dat background data.")
 print(f"📊 Sheet2: log10 (data after background subtraction)")
-print(f"📊 Sheet3：Linear fit slopes + correlation coefficients + R²")
 print(f"📁 Save location:{output_excel}")
