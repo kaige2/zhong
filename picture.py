@@ -19,12 +19,12 @@ plt.rcParams['ytick.major.width'] = 1.0
 root = Tk()
 root.withdraw()
 file_path = filedialog.askopenfilename(
-    title="请选择 xlsx 文件",
+    title="Please select an .xlsx file.",
     filetypes=[("Excel files", "*.xlsx")]
 )
 
 if not file_path:
-    print("未选择文件，程序退出")
+    print("No file selected, program exits.")
     exit()
 
 
@@ -34,7 +34,7 @@ data = df.iloc[:, 1:].values
 
 data_selected = data[:50, :]
 n_rows, n_cols = data_selected.shape
-print(f"截取后数据：{n_rows} 行 × {n_cols} 列")
+print(f"Data after truncation:{n_rows} rows × {n_cols} columns")
 
 
 width = 6
