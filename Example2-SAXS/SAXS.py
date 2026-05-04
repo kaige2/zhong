@@ -87,8 +87,9 @@ sheet2_log_df = np.log10(sheet1_float)
 
 
 print("\nCalculating linear fit...")
-start_row = 22
-end_row = 123
+#The range of values ​​for q needs to be changed.
+start_row = XXX
+end_row = XXX
 
 x_all = sheet2_log_df.iloc[start_row:end_row, 0]
 
